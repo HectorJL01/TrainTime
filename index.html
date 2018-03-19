@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Train Time</title>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+</head>
+<body>
+    <!-- Title -->
+    <h1> Train information </h1>
+
+    <!-- Add -->
+    <div>  
+        <span id="items">Add Information
+            <p>
+        <form>
+            <div>
+                <div>Train Name:</div>
+                <input id="addtrain" type="text"></div>            
+           </div> 
+           <div>
+                <div>Destination:</div>
+                <input id="adddestination" type="text"></div>            
+           </div> 
+           <div>
+                <div>First Train Time:</div>
+                <input id="addtime" type="text"></div>            
+           </div> 
+           <div>
+                <div>Frequency:</div>
+                <input id="addfrequency" type="text"></div>            
+           </div>
+           <div>
+                <input id="submitinformation" value="Submit" type="submit"></div>            
+           </div>  
+        </form>
+            </p> 
+        </span> 
+    </div>
+
+    <div id="information">
+        <!-- <span id="addeditems">
+            <div>Train Name</div>
+            <div id="trainnames"></div>
+            <div>Destination</div>
+            <div id="destinations"></div>
+            <div>Frequency</div>
+            <div id="frequency"></div>
+            <div>Next Arrival</div>
+            <div id="arrivals"></div>
+            <div>Minutes Away</div>
+            <div id="minutesaway"></div>
+        </span> -->
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+
+  // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyB96-Nt6UvoFwW2oEGjy5uu0HwYastoap4",
+            authDomain: "q-click-me-fcd33.firebaseapp.com",
+            databaseURL: "https://q-click-me-fcd33.firebaseio.com",
+            projectId: "q-click-me-fcd33",
+            storageBucket: "q-click-me-fcd33.appspot.com",
+            messagingSenderId: "500249296523"
+        };
+        firebase.initializeApp(config);
+
+        var database = firebase.database();
+
+        var gettrain= "";
+        var getdestination= "";
+        var getfrequency= "";
+        var getnextarrival= [];
+        var getminutesaway= [];
+
+        $("#submitinformation").on("click",function (event){
+            event.preventDefault();
+            console.log("#submitinformation");
+        
+        trains = $("#addtrain").val().trim();
+        destination = $("#adddestination").val().trim();
+        frequency = $("#addfrequency").val().trim();
+
+        database.ref().push({
+            trains: trains,
+            destination: destination,
+            frequency: frequency,
+            dateAdded: firebase.database.ServerValue.TIMESTAMP
+        });
+        // firebase information recollection event
+        database.ref().orderByChild("dataAdded").limitToLast(1).on("child_added", function(snapshot){
+            console.log(snapshot.val());
+            
+            $("#information").text(snapshot.val().trains + " | " + snapshot.val().destination + " | " + snapshot.val().frequency);
+            
+        }, function (errosObject){
+            console.log("The read faild" + errosObject.code);
+        });
+
+        var trn = $("<p>");
+        trn.append(" " + trains);
+        trn.append(" " + destination);
+        trn.append(" " + frequency);
+        console.log(trn);
+        
+        $("#information").text(trn);
+
+        $("#trainnames").append(trn);
+        $("#addtrain").val("");
+        // $("#destinations").append(trn);
+        // $("#adddestination").val("");
+
+        gettrain++;
+
+        var destinations = $("#adddestination").val().trim();
+        var frequen = $("#addfrequency").val().trim();
+        })
+
+    </script>
+</body>
+</html>
