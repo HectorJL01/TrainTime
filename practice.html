@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+</head>
+
+<body>
+    <div>
+        <h1>Hello, 
+            <span id="display-name">
+                world.
+            </span>
+        </h1>
+    </div>
+
+    <form>
+        Name:
+        <input type="text" name="name" id="name">
+        <button type="submit" id="submit"> Submit </button>
+    </form>
+
+    <script>
+        $("#submit").on("click", function (event) {
+            event.preventDefault();
+            console.log($("#name").val().trim());
+            var myName = $("#name").val().trim();
+            $("#display-name").text(myName);s
+        })
+    </script>
+
+</body>
+
+</html>
